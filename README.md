@@ -1,6 +1,8 @@
 # jedi-browser
 
-Full-screen Termux web browser. Purple TUI, TLS 1.2+, cookies, HTML5/JS chrome, gzip downloads.
+Full-screen Termux web browser.
+
+Purple matrix TUI, DuckDuckGo home, TLS 1.2+, cookies, gzip/brotli downloads, HTML5/JS chrome with images + CSS proxy.
 
 https://github.com/jedisecX/jedi-browser
 
@@ -8,27 +10,28 @@ https://github.com/jedisecX/jedi-browser
 
 ```bash
 pkg install python ca-certificates git -y
+pip install brotli   # optional, for Content-Encoding: br and .br saves
 git clone https://github.com/jedisecX/jedi-browser.git
 cd jedi-browser
 python jedi-browser.py
 ```
 
-## Downloads (gzip)
+Keep `jedi-browser.py`, `jb_core.py`, `jb_tui.py`, and `jb_web.py` together.
 
-Saves: `~/jedi/browse/downloads/`
-
-HTTP gzip/deflate is decoded for viewing. Saved files are gzip-compressed (level 9).
+## Run
 
 ```bash
+python jedi-browser.py
+python jedi-browser.py --web
 python jedi-browser.py --download https://example.com/file.pdf
-python jedi-browser.py --download https://example.com/file.pdf --no-gzip
+python jedi-browser.py --download https://example.com/file.pdf --brotli
 ```
 
-TUI: press `d`  |  `--web`: Save.gz button
+`--web` shows pictures and CSS (asset proxy + srcset/url() rewrite).
 
 ## Keys
 
-`g` address  `b` back  `n` forward  `h` home  `d` gzip download  `r` reload  PgUp/PgDn scroll  `q` quit
+`g` address  `b` back  `n` forward  `h` home  `d` gzip download  `D` brotli download  `r` reload  PgUp/PgDn scroll  `q` quit
 
 ## License
 
