@@ -2,7 +2,7 @@
 
 Full-screen Termux web browser.
 
-Purple matrix TUI with an address bar on top. DuckDuckGo as home. Verified TLS 1.2+. Persistent cookie jar. Optional HTML5/JS chrome that opens in Android WebView.
+Purple matrix TUI with an address bar on top, history navigation, and a right-edge scrollbar. DuckDuckGo as home. Verified TLS 1.2+. Persistent cookie jar. Optional HTML5/JS chrome that opens in Android WebView.
 
 **Public repo:** https://github.com/jedisecX/jedi-browser
 
@@ -29,7 +29,11 @@ python jedi-browser.py https://duckduckgo.com
 python jedi-browser.py --web
 ```
 
-`--web` serves `http://127.0.0.1:8765/` and launches `termux-open-url` when Termux:API is installed.
+## Navigation
+
+TUI chrome (row under the address bar): `[<]back  [>]forward  [R]eload  [H]ome` plus a `#` thumb scrollbar on the right.
+
+`--web` chrome: Back, Fwd, Reload, Home, address, GO, Open. Page area scrolls. Session history is kept in the toolbar JS.
 
 ## Keys (TUI)
 
@@ -37,7 +41,10 @@ python jedi-browser.py --web
 | --- | --- |
 | `g` | focus address bar |
 | Enter | go |
+| `b` | back |
+| `n` | forward |
 | `h` | home (DuckDuckGo) |
+| PgUp / PgDn / arrows / space | scroll |
 | `l` | toggle numbered links |
 | `0`-`9` | follow link (in link mode) |
 | `o` | open current URL in Android browser |
@@ -46,53 +53,9 @@ python jedi-browser.py --web
 | `r` | reload |
 | `q` | quit |
 
-Type a search (words with spaces) in the address bar to search DuckDuckGo.
-
 ## SSL / TLS
 
-- HTTPS uses TLS 1.2 or newer
-- Certificates are verified by default (`ca-certificates` on Termux, or `certifi` if installed)
-- Status bar shows verify state / cipher when the stack exposes it
-- `--insecure` skips verify — lab use only
-
-```bash
-pkg install ca-certificates
-python jedi-browser.py --insecure   # do not use on the open web
-```
-
-## Cookies and login
-
-Netscape cookie jar at `~/jedi/browse/cookies.txt`.
-
-Shared by the TUI and the `--web` proxy. JS login forms need `--web`. After you sign in there, the jar keeps the session for later TUI fetches.
-
-Override the data directory with `JEDI_HOME`.
-
-## What this is not
-
-The TUI is a reader. It does not execute page JavaScript.
-
-`--web` runs HTML5/JS in Android browser / WebView. PHP is server-side. Local `file:///.../*.php` is piped through `php` if installed.
-
-For a full desktop engine on the phone: Termux:X11 + `pkg install x11-repo firefox`.
-
-## Layout
-
-| File | Role |
-| --- | --- |
-| `jedi-browser.py` | entry point |
-| `jb_core.py` | TLS session, cookies, fetch |
-| `jb_tui.py` | purple full-screen TUI |
-| `jb_web.py` | HTML5 chrome + proxy |
-| `LICENSE` | MIT |
-
-## Files written on device
-
-| Path | What |
-| --- | --- |
-| `~/jedi/browse/cookies.txt` | cookie jar |
-| `~/jedi/browse/history.jsonl` | visit log |
-| `~/jedi/browse/downloads/` | non-HTML saves |
+HTTPS uses TLS 1.2+ with certificate verify on by default. `--insecure` is lab-only.
 
 ## License
 
