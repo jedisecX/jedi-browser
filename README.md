@@ -1,6 +1,6 @@
 # jedi-browser
 
-Full-screen Termux web browser in one Python script.
+Full-screen Termux web browser.
 
 Purple matrix TUI with an address bar on top. DuckDuckGo as home. Verified TLS 1.2+. Persistent cookie jar. Optional HTML5/JS chrome that opens in Android WebView.
 
@@ -19,16 +19,13 @@ cd jedi-browser
 chmod +x jedi-browser.py
 ```
 
+Keep `jedi-browser.py`, `jb_core.py`, `jb_tui.py`, and `jb_web.py` in the same folder.
+
 ## Run
 
 ```bash
-# full-screen TUI — address bar across the top
 python jedi-browser.py
-
-# start on a URL
 python jedi-browser.py https://duckduckgo.com
-
-# HTML5 + JavaScript chrome (real engine = Android browser / WebView)
 python jedi-browser.py --web
 ```
 
@@ -42,7 +39,7 @@ python jedi-browser.py --web
 | Enter | go |
 | `h` | home (DuckDuckGo) |
 | `l` | toggle numbered links |
-| `0`–`9` | follow link (in link mode) |
+| `0`-`9` | follow link (in link mode) |
 | `o` | open current URL in Android browser |
 | `w` | hand off to w3m / lynx |
 | `c` | show cookie jar |
@@ -65,13 +62,9 @@ python jedi-browser.py --insecure   # do not use on the open web
 
 ## Cookies and login
 
-Netscape cookie jar:
+Netscape cookie jar at `~/jedi/browse/cookies.txt`.
 
-```
-~/jedi/browse/cookies.txt
-```
-
-Shared by the TUI and the `--web` proxy. JS login forms need `--web` (the WebView runs the page). After you sign in there, the jar keeps the session for later TUI fetches.
+Shared by the TUI and the `--web` proxy. JS login forms need `--web`. After you sign in there, the jar keeps the session for later TUI fetches.
 
 Override the data directory with `JEDI_HOME`.
 
@@ -79,9 +72,19 @@ Override the data directory with `JEDI_HOME`.
 
 The TUI is a reader. It does not execute page JavaScript.
 
-`--web` runs HTML5/JS in whatever opens the local chrome (Android browser / WebView). PHP is server-side: remote PHP sites work as HTML. Local `file:///.../*.php` is piped through `php` / `php-cgi` if installed.
+`--web` runs HTML5/JS in Android browser / WebView. PHP is server-side. Local `file:///.../*.php` is piped through `php` if installed.
 
 For a full desktop engine on the phone: Termux:X11 + `pkg install x11-repo firefox`.
+
+## Layout
+
+| File | Role |
+| --- | --- |
+| `jedi-browser.py` | entry point |
+| `jb_core.py` | TLS session, cookies, fetch |
+| `jb_tui.py` | purple full-screen TUI |
+| `jb_web.py` | HTML5 chrome + proxy |
+| `LICENSE` | MIT |
 
 ## Files written on device
 
